@@ -21,3 +21,6 @@
 * A folder called "SentiStrength_Data" to go with SentiStrengthCom (ditto)
 * A folder called "chromedriver", which contains the Chrome driver (named "chromedriver")
 All of these files need to be in the same folder as lexisnexis_analysis.py
+
+## Regarding LexisNexis' Terms and Conditions
+* Be sure to check them! To the best of my knowledge, this program - in its current form - is T&C compliant. If you make any modifications, ensure that you're not violating these terms! I won't be held liable if you screw up. Most importantly, you can't access the online service in a way that isn't part of the online service and you can't store complete articles in a local database. So don't do that.
