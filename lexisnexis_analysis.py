@@ -90,7 +90,7 @@ def retrieve_next_search_result(driven_browser, baseurl, pagectr):
 	driven_browser.get("{0}&start={1}".format(baseurl, (pagectr)))
 	
 	#Stagger the search a little (because JavaScript)
-	time.sleep(4.5)
+	time.sleep(6.5)
 	results = []
 
 	#Switch to the content frame
@@ -286,6 +286,44 @@ def main(search_string, access_url, username, password, starting_page):
 				to_write = [search_results[0], search_results[1], search_results[2], search_results[3], sents[0], sents[1], sents[2], sents[3] ]
 				
 				output_writer.writerow(to_write)
+				
+				errorpages.remove(i)
+			
+			except (KeyboardInterrupt, SystemExit):
+				with open(info_file_name, 'ab') as f:
+					print "\n\nProcess aborted at {0}".format(driver.current_url)
+					f.write("\n\nProcess aborted at {0}".format(driver.current_url))
+				raise
+
+			except:
+				#It's possible our session expired...
+				if (access_url in driver.current_url):
+					print "Session expired? Re-establishing..."
+					handle_login(driver, username, password)
+					execute_search(driver, search_string)
+					time.sleep(1)
+
+				with open(info_file_name, 'ab') as f:
+					print "\n\nThere was another error at {0}".format(driver.current_url)
+					f.write("\n\nThere was an error at {0}".format(driver.current_url))	
+					
+		for i in errorpages:
+			try:
+				#Open page & gather data
+				print "{0}: Retrying page #{1}...".format(strftime("%Y-%m-%d %H:%M:%S"), i)
+				with open(info_file_name, 'ab') as f: f.write("{0}: Retrying page #{1}...".format(strftime("%Y-%m-%d %H:%M:%S"), i));
+				search_results = retrieve_next_search_result(driver, baseurl, i) #Returns publication_name, datetime, metadata, ln_metadata, headline, body
+				
+				#Prepare SentiStrength analysis
+				fulltext = "{0} {1}".format(search_results[4], search_results[5])
+				sents = get_sentiment(fulltext, senti_strength_process) #Returns (by default) positive, negative, neutral, explanation
+				
+				#Output format is ["Publication", "Date", "Meta", "LN-Meta", "Polarity_Pos", "Polarity_Neg", "Polarity_Neu", "Explanation"]
+				to_write = [search_results[0], search_results[1], search_results[2], search_results[3], sents[0], sents[1], sents[2], sents[3] ]
+				
+				output_writer.writerow(to_write)
+				
+				errorpages.remove(i)
 			
 			except (KeyboardInterrupt, SystemExit):
 				with open(info_file_name, 'ab') as f:
