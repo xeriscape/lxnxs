@@ -255,7 +255,7 @@ def main(search_string, access_url, username, password, starting_page):
 					f.write("\n\nProcess aborted at {0}".format(driver.current_url))
 				raise
 
-			except:
+			except Exception as e:
 				#It's possible our session expired...
 				if (access_url in driver.current_url):
 					print "Session expired? Re-establishing..."
@@ -264,8 +264,8 @@ def main(search_string, access_url, username, password, starting_page):
 					time.sleep(1)
 
 				with open(info_file_name, 'ab') as f:
-					print "\n\nThere was an error at {0}".format(driver.current_url)
-					f.write("\n\nThere was an error at {0}".format(driver.current_url))
+					print "There was an error at {0}, specifically {1}\n\n".format(driver.current_url, e)
+					f.write("There was an error at {0}, specifically {1}\n\n".format(driver.current_url, e))
 					errorpages.append(i)
 				
 
@@ -295,7 +295,7 @@ def main(search_string, access_url, username, password, starting_page):
 					f.write("\n\nProcess aborted at {0}".format(driver.current_url))
 				raise
 
-			except:
+			except Exception as e:
 				#It's possible our session expired...
 				if (access_url in driver.current_url):
 					print "Session expired? Re-establishing..."
@@ -304,8 +304,8 @@ def main(search_string, access_url, username, password, starting_page):
 					time.sleep(1)
 
 				with open(info_file_name, 'ab') as f:
-					print "\n\nThere was another error at {0}".format(driver.current_url)
-					f.write("\n\nThere was an error at {0}".format(driver.current_url))	
+					print "There was another error at {0}, specifically {1}\n\n".format(driver.current_url, e)
+					f.write("There was another error at {0}, specifically {1}\n\n".format(driver.current_url, e))	
 					
 		for i in errorpages:
 			try:
@@ -331,7 +331,7 @@ def main(search_string, access_url, username, password, starting_page):
 					f.write("\n\nProcess aborted at {0}".format(driver.current_url))
 				raise
 
-			except:
+			except Exception as e:
 				#It's possible our session expired...
 				if (access_url in driver.current_url):
 					print "Session expired? Re-establishing..."
@@ -340,8 +340,8 @@ def main(search_string, access_url, username, password, starting_page):
 					time.sleep(1)
 
 				with open(info_file_name, 'ab') as f:
-					print "\n\nThere was another error at {0}, giving up".format(driver.current_url)
-					f.write("\n\nThere was an error at {0}, giving up".format(driver.current_url))	
+					print "There was another error at {0}, specifically {1}\n\n".format(driver.current_url, e)
+					f.write("There was another error at {0}, specifically {1}\n\n".format(driver.current_url, e))	
 
 	print "{0}: Search complete.".format(strftime("%Y-%m-%d %H:%M:%S"))
 
