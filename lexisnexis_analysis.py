@@ -143,6 +143,9 @@ def retrieve_next_search_result(driven_browser, baseurl, pagectr):
 	return results
 #-----------------------------------------------------------------------------------------
 def extract_metadata(blob):
+	#For later
+	date = ""; new_date = ""; old_date = "";
+
 	#Define some patterns that will be used for metadata extraction
 	publication_date = re.compile("[0-9 ,]{0,}[0-9]{4,}")
 	month_names = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
@@ -164,9 +167,13 @@ def extract_metadata(blob):
 	date += publication_date.findall(metadata[date_start_column+1])[0] #The second date column contains the day and year
 	date = date.replace(", ", " ")
 	date = re.sub("[ ]+", " ", date)
-					
-	old_date = datetime.datetime.strptime(date, "%B %d %Y")
-	new_date = old_date.strftime("%Y-%m-%d")
+	
+	try: #Try to deal with nonstandard dates
+		old_date = datetime.datetime.strptime(date, "%B %d %Y")
+		new_date = old_date.strftime("%Y-%m-%d")
+		
+	except:
+		new_date = date
 	
 	return([publication, new_date])
 
