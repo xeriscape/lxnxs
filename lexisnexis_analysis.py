@@ -212,7 +212,7 @@ def main(search_string, access_url, username, password, starting_page):
 	
 	#Prepare CSV output facilities
 	csv.register_dialect('excel-two', delimiter=";", doublequote=True, escapechar=None, lineterminator="\r\n", quotechar='"', quoting=csv.QUOTE_MINIMAL,skipinitialspace=True)
-	csv_headers=["Publication", "Date", "Meta", "LN-Meta", "Polarity_Pos", "Polarity_Neg", "Polarity_Neu"]#, "Explanation"]
+	csv_headers=["Publication", "Date","Headline", "Meta", "LN-Meta", "Polarity_Pos", "Polarity_Neg", "Polarity_Neu"]#, "Explanation"]
 	
 	#Prepare filenames
 	file_information = "Query: {0}\nDatetime: {1}".format(search_string, strftime("%Y-%m-%d %H:%M:%S"))
@@ -251,8 +251,8 @@ def main(search_string, access_url, username, password, starting_page):
 				fulltext = "{0} {1}".format(search_results[4], search_results[5])
 				sents = get_sentiment(fulltext, senti_strength_process) #Returns (by default) positive, negative, neutral, explanation
 				
-				#Output format is ["Publication", "Date", "Meta", "LN-Meta", "Polarity_Pos", "Polarity_Neg", "Polarity_Neu", "Explanation"]. Note that explanations are NOT stored, as this could be seen as violating the LexisNexis Terms & Conditions, since this field contains the full text.
-				to_write = [ search_results[0], search_results[1], search_results[2], search_results[3], sents[0], sents[1], sents[2] ]#, sents[3] ]
+				#Output format is ["Publication", "Date", "Headline", "Meta", "LN-Meta", "Polarity_Pos", "Polarity_Neg", "Polarity_Neu", "Explanation"]. Note that explanations are NOT stored, as this could be seen as violating the LexisNexis Terms & Conditions, since this field contains the full text.
+				to_write = [ search_results[0], search_results[1], search_results[4], search_results[2], search_results[3], sents[0], sents[1], sents[2], ]#, sents[3] ]
 				
 				output_writer.writerow(to_write)
 			
