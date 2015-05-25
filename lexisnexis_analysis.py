@@ -90,7 +90,7 @@ def retrieve_next_search_result(driven_browser, baseurl, pagectr):
 	driven_browser.get("{0}&start={1}".format(baseurl, (pagectr)))
 	
 	#Stagger the search a little (because JavaScript)
-	time.sleep(8.5)
+	time.sleep(7.5)
 	results = []
 
 	#Switch to the content frame
