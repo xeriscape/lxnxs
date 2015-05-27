@@ -1,5 +1,5 @@
 import lexisnexis_analysis
-from conduct_analysis import conduct_analysis
+from lexisnexis_analysis import conduct_analysis
 import glob, os
 #------------------------------------------------------------------------------
 def main():
@@ -27,11 +27,10 @@ def main():
 					
 			new_query = " ".join(reassembled_query)
 		
-			print "\n--------- Executing search ",x," ---------\n"
+			print "\n--------- Executing search ",search_string, location, username, password, "1"," ---------\n"
 			search_string = "DATE(>={0} and <={1}) and HEADLINE({2}) not SUBJECT(patent or advert!)".format(since, until, new_query)
 			#search_string, access_url, username, password, starting_page
-			#lexisnexis_analysis.conduct_analysis(search_string, location, username, password, 1)
-			print "Query: ",search_string, location, username, password, "1"
+			lexisnexis_analysis.conduct_analysis(search_string, location, username, password, 1)
 			
 		except (KeyboardInterrupt, SystemExit):
 			print "Process aborted."
