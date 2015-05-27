@@ -90,7 +90,7 @@ def retrieve_next_search_result(driven_browser, baseurl, pagectr):
 	driven_browser.get("{0}&start={1}".format(baseurl, (pagectr)))
 	
 	#Stagger the search a little (because JavaScript)
-	time.sleep(7.5)
+	time.sleep(7.5) #TODO: Use WaitUntil instead?
 	results = []
 
 	#Switch to the content frame
@@ -202,7 +202,7 @@ def get_sentiment(sentiString, p):
 	#Returns (by default) positive, negative, neutral, explanation
 	return ret_val
 #-----------------------------------------------------------------------------------------
-def main(search_string, access_url, username, password, starting_page):
+def conduct_analysis(search_string, access_url, username, password, starting_page):
 	#Set up chromedriver
 	print "Now spinning up browser..."
 	driver = set_up_browser("./chromedriver/chromedriver")
@@ -351,6 +351,9 @@ def main(search_string, access_url, username, password, starting_page):
 					f.write("There was another error at {0}, specifically {1}\n\n".format(driver.current_url, e))	
 
 	print "{0}: Search complete.".format(strftime("%Y-%m-%d %H:%M:%S"))
+	
+	driver.quit()
+	
 
 #---------------------------------------------------------------------------
 
@@ -371,4 +374,4 @@ if __name__ == '__main__':
 	un = content[0].replace("\n", ""); pw = content[1].replace("\n", ""); rl = content[2].replace("\n", "")
 	
 	#Call main method
-	main(querystring, rl, un, pw, int(paeg))
+	conduct_analysis(querystring, rl, un, pw, int(paeg))
