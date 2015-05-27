@@ -92,10 +92,7 @@ def retrieve_next_search_result(driven_browser, baseurl, pagectr):
 	driven_browser.get("{0}&start={1}".format(baseurl, (pagectr)))
 	
 	#Stagger the search a little (because JavaScript)
-	try:
-		element = WebDriverWait(driven_browser, 15).until(EC.presence_of_element_located((By.XPATH, "//frame[contains(@name, 'fr_resultsContent')]")))
-	finally:
-		raise
+	element = WebDriverWait(driven_browser, 15).until(EC.presence_of_element_located((By.XPATH, "//frame[contains(@name, 'fr_resultsContent')]")))
 	
 	results = []
 
