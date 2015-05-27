@@ -3,6 +3,8 @@
 from lxml import html
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 from time import gmtime, strftime
 import codecs, cStringIO
@@ -90,7 +92,11 @@ def retrieve_next_search_result(driven_browser, baseurl, pagectr):
 	driven_browser.get("{0}&start={1}".format(baseurl, (pagectr)))
 	
 	#Stagger the search a little (because JavaScript)
-	time.sleep(7.5) #TODO: Use WaitUntil instead?
+	try:
+		element = WebDriverWait(driven_browser, 15).until(EC.presence_of_element_located((By.XPATH, "//frame[contains(@name, 'fr_resultsContent')]")))
+	finally:
+		raise
+	
 	results = []
 
 	#Switch to the content frame
